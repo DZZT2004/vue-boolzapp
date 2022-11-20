@@ -17,7 +17,8 @@
 
 	<!-- styles -->
 	<link rel="stylesheet" href="css/style.css">
-
+	<!-- luxon -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/3.1.0/luxon.min.js" integrity="sha512-79nhbkASdW5wurW8DtF9Vd7BEDKdTbCKkh87lW6W3tk9T4L9Bc58MzmvRzjMcFCSKpjkoRjwzrTdfOa5lkfJ5Q==" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 	<!-- vue -->
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.7.13/dist/vue.js" defer></script>
 	<script src="js/script.js" defer></script>
@@ -94,23 +95,25 @@
 			</div>
 			<div class="right-messages-container">
 				<div class="right-messages">
-					<div class='message sent' v-for="messaggio in contacts[index].messages" v-if="messaggio.status == 'sent'">
-						<span class="message-text">{{messaggio.message}}</span>
-						<span class="message-time">{{messaggio.date}}</span>
-						<i class="fa fa-chevron-down f-right message-options"></i>
-						<div class="message-options-panel" style="display: none;">
-							<div class="message-info">Info messaggio</div>
-							<div class="message-destroy">Cancella messaggio</div>
+					<div v-for="messaggio in contacts[index].messages">
+						<div class='message sent' v-if="messaggio.status == 'sent'">
+							<span class="message-text">{{messaggio.message}}</span>
+							<span class="message-time">{{messaggio.date}}</span>
+							<i class="fa fa-chevron-down f-right message-options"></i>
+							<div class="message-options-panel" style="display: none;">
+								<div class="message-info">Info messaggio</div>
+								<div class="message-destroy">Cancella messaggio</div>
+							</div>
 						</div>
-					</div>
-
-					<div class='message received' v-for="messaggio in contacts[index].messages" v-if="messaggio.status == 'received'">
-						<span class="message-text">{{messaggio.message}}</span>
-						<span class="message-time">{{messaggio.date}}</span>
-						<i class="fa fa-chevron-down f-right message-options"></i>
-						<div class="message-options-panel" style="display: none;">
-							<div class="message-info">Info messaggio</div>
-							<div class="message-destroy">Cancella messaggio</div>
+	
+						<div class='message received' v-else-if="messaggio.status == 'received'">
+							<span class="message-text">{{messaggio.message}}</span>
+							<span class="message-time">{{messaggio.date}}</span>
+							<i class="fa fa-chevron-down f-right message-options"></i>
+							<div class="message-options-panel" style="display: none;">
+								<div class="message-info">Info messaggio</div>
+								<div class="message-destroy">Cancella messaggio</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -119,7 +122,7 @@
 				<div class="right-footer-icon f-left">
 					<i class="far fa-smile"></i>
 				</div>
-				<input class="new-message-inputs" placeholder="Scrivi un messaggio">
+				<input class="new-message-inputs" placeholder="Scrivi un messaggio" v-model="nuovoMessaggio" @keyup.enter="aggiungiMessaggio()">
 				<div class="right-footer-icon f-right">
 					<i class="fa fa-microphone" aria-hidden="true"></i>
 				</div>
