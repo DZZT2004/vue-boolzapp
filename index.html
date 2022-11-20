@@ -59,28 +59,13 @@
 				>
 			</div>
 			<div class="contacts">
-				<div class="contact active">
+				<div class="contact" :class="{active: contatto.visible}" v-for="(contatto, index) in contacts" v-on:click="cambiaContatto(index)">
 					<div class="contact-logo">
-						<img src="img/avatar_1.jpg" alt="contact name">
+						<img :src="'img/avatar_'+contatto.avatar+'.jpg'" alt="contact name">
 					</div>
 					<div class="contact-info">
 						<h3>
-							<span class="contact-name">Contact Name</span>
-							<span class="time f-right">
-								00:00
-							</span>
-						</h3>
-						<small>Last message</small>
-					</div>
-				</div>
-
-				<div class="contact">
-					<div class="contact-logo">
-						<img src="img/avatar_2.jpg" alt="contact name">
-					</div>
-					<div class="contact-info">
-						<h3>
-							<span class="contact-name">Contact Name</span>
+							<span class="contact-name">{{ contatto.name }}</span>
 							<span class="time f-right">
 								00:00
 							</span>
@@ -109,9 +94,9 @@
 			</div>
 			<div class="right-messages-container">
 				<div class="right-messages">
-					<div class='message sent'>
-						<span class="message-text">message content</span>
-						<span class="message-time">18/11/2022 00:00:00</span>
+					<div class='message sent' v-for="messaggio in contacts[index].messages" v-if="messaggio.status == 'sent'">
+						<span class="message-text">{{messaggio.message}}</span>
+						<span class="message-time">{{messaggio.date}}</span>
 						<i class="fa fa-chevron-down f-right message-options"></i>
 						<div class="message-options-panel" style="display: none;">
 							<div class="message-info">Info messaggio</div>
@@ -119,9 +104,9 @@
 						</div>
 					</div>
 
-					<div class='message received'>
-						<span class="message-text">message content</span>
-						<span class="message-time">18/11/2022 00:00:00</span>
+					<div class='message received' v-for="messaggio in contacts[index].messages" v-if="messaggio.status == 'received'">
+						<span class="message-text">{{messaggio.message}}</span>
+						<span class="message-time">{{messaggio.date}}</span>
 						<i class="fa fa-chevron-down f-right message-options"></i>
 						<div class="message-options-panel" style="display: none;">
 							<div class="message-info">Info messaggio</div>
