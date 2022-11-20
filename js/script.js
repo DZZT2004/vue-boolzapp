@@ -166,8 +166,19 @@ const app = new Vue({
 		],
 		index: 0,
 		nuovoMessaggio: '',
+		ultimoMessaggio: '',
+		filtro: ''
 	},
 	methods: {
+		setUltimoMessaggio: function() {
+			for (let i = this.contacts[this.index].messages.length-1; i != 0; i--) {
+				if(this.contacts[this.index].messages[i].status == 'received'){
+					this.ultimoMessaggio = this.contacts[this.index].messages[i].date;
+					break;
+				}			
+			}
+		},
+
 		cambiaContatto: function (numero) {
 			this.contacts[this.index].visible = false;
 			this.index = numero;

@@ -28,6 +28,7 @@
 	<div id="app" class="container">
 		<!-- contenitore sx -->
 		<div class="left">
+			{{setUltimoMessaggio()}}
 			<div class="header-left">
 				<div class="header-left-logo">
 					<img src="img/avatar_io.jpg" alt="User avatar">
@@ -57,10 +58,11 @@
 					class="left-searchbar-input"
 					placeholder="Cerca o inizia una nuova chat"
 					name="search"
+					v-model="filtro"
 				>
 			</div>
 			<div class="contacts">
-				<div class="contact" :class="{active: contatto.visible}" v-for="(contatto, index) in contacts" v-on:click="cambiaContatto(index)">
+				<div class="contact" :class="{active: contatto.visible}" v-for="(contatto, index) in contacts" v-on:click="cambiaContatto(index)" v-show="contatto.name.toLowerCase().includes(filtro.toLowerCase())">
 					<div class="contact-logo">
 						<img :src="'img/avatar_'+contatto.avatar+'.jpg'" alt="contact name">
 					</div>
@@ -68,10 +70,10 @@
 						<h3>
 							<span class="contact-name">{{ contatto.name }}</span>
 							<span class="time f-right">
-								00:00
+								{{contatto.messages[contatto.messages.length-1].date}}
 							</span>
 						</h3>
-						<small>Last message</small>
+						<small>{{contatto.messages[contatto.messages.length-1].message}}</small>
 					</div>
 				</div>
 			</div>
@@ -81,10 +83,10 @@
 		<div class="right">
 			<div class="header-right">
 				<div class="header-right-logo">
-					<img src="img/avatar_1.jpg" alt="contact name">
+					<img :src="'img/avatar_'+(index+1)+'.jpg'" alt="contact name">
 					<h3>
-						<span id="header-right-contact-name">Contact Name</span><br>
-						<small class="time">Ultimo accesso oggi alle --last-message-date--</small>
+						<span id="header-right-contact-name">{{contacts[index].name}}</span><br>
+						<small class="time">Ultimo accesso oggi alle {{ultimoMessaggio}}</small>
 					</h3>
 				</div>
 				<div class="header-right-icons">
