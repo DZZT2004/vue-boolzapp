@@ -186,23 +186,25 @@ const app = new Vue({
 		},
 
 		aggiungiMessaggio: function() {
-			let ms = luxon.DateTime.local();
-			this.contacts[this.index].messages.push({
-				date: ms.day+"/"+ms.month+"/"+ms.year+" "+ms.hour+":"+ms.minute+":"+ms.second,
-				message: this.nuovoMessaggio,
-				status: 'sent'
-			})
-			this.nuovoMessaggio = '';
-			let delay = ls => new Promise(res => setTimeout(res, ls));
-			let rispostaInterlocutore = async () => {
-				await delay(1000);
+			if (this.nuovoMessaggio != ''){
+				let ms = luxon.DateTime.local();
 				this.contacts[this.index].messages.push({
 					date: ms.day+"/"+ms.month+"/"+ms.year+" "+ms.hour+":"+ms.minute+":"+ms.second,
-					message: 'ok',
-					status: 'received'
+					message: this.nuovoMessaggio,
+					status: 'sent'
 				})
+				this.nuovoMessaggio = '';
+				let delay = ls => new Promise(res => setTimeout(res, ls));
+				let rispostaInterlocutore = async () => {
+					await delay(1000);
+					this.contacts[this.index].messages.push({
+						date: ms.day+"/"+ms.month+"/"+ms.year+" "+ms.hour+":"+ms.minute+":"+ms.second,
+						message: 'ok',
+						status: 'received'
+					})
+				}
+				rispostaInterlocutore();
 			}
-			rispostaInterlocutore();
 		}
 	},
 })
